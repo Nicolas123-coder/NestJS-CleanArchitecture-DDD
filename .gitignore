@@ -39,3 +39,6 @@ lerna-debug.log*
 .docker/*
 !.docker/entrypoint.sh
 !.docker/postgres/Dockerfile
+
+# Env
+.env
