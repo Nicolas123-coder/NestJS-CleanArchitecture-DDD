@@ -12,6 +12,7 @@ describe('UserEntity unit tests', () => {
   })
 
   it('Constructor method', () => {
+    expect(sut._id).toBeDefined()
     expect(sut.props.name).toEqual(props.name)
     expect(sut.props.email).toEqual(props.email)
     expect(sut.props.password).toEqual(props.password)
