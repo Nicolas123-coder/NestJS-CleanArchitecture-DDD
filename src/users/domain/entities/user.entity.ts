@@ -16,6 +16,7 @@ export class UserEntity extends Entity<UserProps> {
     this.props.createdAt = this.props.createdAt ?? new Date()
   }
 
+  //! pode ser usado depois para fazer update de outros campos da entidade tbm
   update(value: string): void {
     this.name = value
   }
