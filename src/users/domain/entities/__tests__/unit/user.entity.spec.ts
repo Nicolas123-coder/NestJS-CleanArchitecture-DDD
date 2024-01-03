@@ -6,12 +6,16 @@ describe('UserEntity unit tests', () => {
   let sut: UserEntity
 
   beforeEach(() => {
+    // [INFO] esse fn() é só uma função mock que não faz nada, já que quero testar apenas se o método é chamado
+    UserEntity.validate = jest.fn()
+
     props = UserDataBuilder({})
 
     sut = new UserEntity(props)
   })
 
   it('Constructor method', () => {
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut._id).toBeDefined()
     expect(sut.props.name).toEqual(props.name)
     expect(sut.props.email).toEqual(props.email)
@@ -59,12 +63,14 @@ describe('UserEntity unit tests', () => {
   it('Setter update a user', () => {
     sut.update('other name')
 
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut.props.name).toEqual(props.name)
   })
 
   it('Setter update a user password', () => {
     sut.updatePassword('other password')
 
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut.props.password).toEqual(props.password)
   })
 })
