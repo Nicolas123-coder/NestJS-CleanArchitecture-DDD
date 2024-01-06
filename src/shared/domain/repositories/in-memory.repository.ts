@@ -38,6 +38,6 @@ export abstract class InMemoryRepository<E extends Entity>
     const _entity = await this.findById(id)
     const entityIndex = this.items.findIndex(item => item.id === _entity.id)
 
-    this.items.slice(entityIndex, 1)
+    this.items.splice(entityIndex, 1)
   }
 }
