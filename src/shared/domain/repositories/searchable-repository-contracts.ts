@@ -138,7 +138,7 @@ export class SearchParams {
 }
 
 // o que estao no generic sao os parametros
-export interface SearcableRepositoryInterface<
+export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
   SearchInput = SearchParams,
