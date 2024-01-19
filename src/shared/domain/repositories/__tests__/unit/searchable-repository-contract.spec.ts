@@ -136,5 +136,75 @@ describe('Searchable Repository unit tests', () => {
     })
   })
 
+  describe('Search Result class tests', () => {
+    it('constructor props', () => {
+      let sut = new SearchResult({
+        items: [] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: null,
+        sortDir: null,
+        filter: null,
+      })
+
+      // TODO: jogar esses parametros em uma variavel e usar nos lugares que usam ele
+      expect(sut.toJSON()).toStrictEqual({
+        items: [] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        lastPage: 2,
+        sort: null,
+        sortDir: null,
+        filter: null,
+      })
+
+      sut = new SearchResult({
+        items: [] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      })
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: [] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        lastPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      })
+
+      sut = new SearchResult({
+        items: [] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      })
+
+      expect(sut.lastPage).toBe(1)
+
+      sut = new SearchResult({
+        items: [] as any,
+        total: 50,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      })
+
+      expect(sut.lastPage).toBe(5)
+    })
+  })
 
 })
