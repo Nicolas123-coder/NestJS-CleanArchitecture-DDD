@@ -144,5 +144,7 @@ export interface SearchableRepositoryInterface<
   SearchInput = SearchParams,
   SearchOutput = SearchResult<E, String>,
 > extends RepositoryInterface<E> {
+  sortableFields: string[]
+
   search(props: SearchInput): Promise<SearchOutput>
 }
