@@ -34,8 +34,32 @@ describe('InMemoryRepository unit tests', () => {
   })
 
   describe('applyFilter method', () => {
-    it('', async () => {
-      
+    it('Should no filter items when filter param is null', async () => {
+      const items = [new StubEntity({ name: 'any_name', price: 1 })]
+      const spyFilterMethod = jest.spyOn(items, 'filter')
+      const itemsFiltered = await sut['applyFilter'](items, null)
+
+      expect(itemsFiltered).toStrictEqual(items)
+      expect(spyFilterMethod).not.toHaveBeenCalled()
+    })
+
+    it('Should filter items using filter param', async () => {
+      const items = [
+        new StubEntity({ name: 'fake', price: 1 }),
+        new StubEntity({ name: 'test', price: 1 }),
+        new StubEntity({ name: 'TEST', price: 1 }),
+      ]
+      const spyFilterMethod = jest.spyOn(items, 'filter')
+
+      let itemsFiltered = await sut['applyFilter'](items, 'TEST')
+
+      expect(itemsFiltered).toStrictEqual([items[1], items[2]])
+      expect(spyFilterMethod).toHaveBeenCalledTimes(1)
+
+      itemsFiltered = await sut['applyFilter'](items, 'field_non_existent')
+
+      expect(itemsFiltered).toHaveLength(0)
+      expect(spyFilterMethod).toHaveBeenCalledTimes(2)
     })
   })
 
