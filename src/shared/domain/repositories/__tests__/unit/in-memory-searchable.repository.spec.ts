@@ -192,5 +192,101 @@ describe('InMemoryRepository unit tests', () => {
         }),
       )
     })
+
+    it('Should apply Pagination and Sort when the other params is null', async () => {
+      const items = [
+        new StubEntity({ name: 'b', price: 1 }),
+        new StubEntity({ name: 'a', price: 1 }),
+        new StubEntity({ name: 'd', price: 1 }),
+        new StubEntity({ name: 'e', price: 1 }),
+        new StubEntity({ name: 'c', price: 1 }),
+      ]
+
+      sut.items = items
+
+      //TODO: dividir cada expect em outro it ou separar em outro describe
+
+      let params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          sortBy: 'name',
+        }),
+      )
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[3], items[2]],
+          total: 5,
+          currentPage: 1,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: null,
+        }),
+      )
+
+      params = await sut.search(
+        new SearchParams({
+          page: 2,
+          perPage: 2,
+          sortBy: 'name',
+        }),
+      )
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[4], items[0]],
+          total: 5,
+          currentPage: 2,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: null,
+        }),
+      )
+
+      params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          sortBy: 'name',
+          sortDir: 'asc',
+        }),
+      )
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[1], items[0]],
+          total: 5,
+          currentPage: 1,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          filter: null,
+        }),
+      )
+
+      params = await sut.search(
+        new SearchParams({
+          page: 3,
+          perPage: 2,
+          sortBy: 'name',
+          sortDir: 'asc',
+        }),
+      )
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[3]],
+          total: 5,
+          currentPage: 3,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          filter: null,
+        }),
+      )
+    })
   })
 })
