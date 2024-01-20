@@ -142,7 +142,7 @@ describe('InMemoryRepository unit tests', () => {
       )
     })
 
-    it('Should apply Pagination and Filter when the other params is null', async () => {
+    it('Should apply Pagination and Filter', async () => {
       const items = [
         new StubEntity({ name: 'test', price: 1 }),
         new StubEntity({ name: 'a', price: 1 }),
@@ -193,7 +193,7 @@ describe('InMemoryRepository unit tests', () => {
       )
     })
 
-    it('Should apply Pagination and Sort when the other params is null', async () => {
+    it('Should apply Pagination and Sort', async () => {
       const items = [
         new StubEntity({ name: 'b', price: 1 }),
         new StubEntity({ name: 'a', price: 1 }),
@@ -285,6 +285,60 @@ describe('InMemoryRepository unit tests', () => {
           sort: 'name',
           sortDir: 'asc',
           filter: null,
+        }),
+      )
+    })
+
+    it('Should apply search using Pagination, Sort and Filter', async () => {
+      const items = [
+        new StubEntity({ name: 'test', price: 1 }),
+        new StubEntity({ name: 'a', price: 1 }),
+        new StubEntity({ name: 'TEST', price: 1 }),
+        new StubEntity({ name: 'e', price: 1 }),
+        new StubEntity({ name: 'TeSt', price: 1 }),
+      ]
+
+      sut.items = items
+
+      let params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          filter: 'TEST',
+          sortBy: 'name',
+        }),
+      )
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[0], items[4]],
+          total: 3,
+          currentPage: 1,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: 'TEST',
+        }),
+      )
+
+      params = await sut.search(
+        new SearchParams({
+          page: 2,
+          perPage: 2,
+          filter: 'TEST',
+          sortBy: 'name',
+        }),
+      )
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[2]],
+          total: 3,
+          currentPage: 2,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: 'TEST',
         }),
       )
     })
