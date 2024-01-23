@@ -91,8 +91,6 @@ describe('UserInMemoryRepository unit tests', () => {
   })
 
   it('Should sort by name field - applySort method', async () => {
-    const createdAt = new Date()
-
     const items = [
       new UserEntity(UserDataBuilder({ name: 'c' })),
       new UserEntity(
