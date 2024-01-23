@@ -34,7 +34,7 @@ export class UserInMemoryRepository
     items: UserEntity[],
     filter: UserRepository.Filter,
   ): Promise<UserEntity[]> {
-    if (filter) {
+    if (!filter) {
       return items
     }
 
