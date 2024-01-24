@@ -1,6 +1,7 @@
 import { UserRepository } from '@/users/domain/repository/user.repository'
 import { BadRequestError } from '../errors/bad-request-error'
 import { UserEntity } from '@/users/domain/entities/user.entity'
+import { HashProvider } from '@/shared/application/providers/hash-provider'
 
 export namespace SignupUseCase {
   export type Input = {
@@ -19,7 +20,11 @@ export namespace SignupUseCase {
   }
 
   export class UseCase {
-    constructor(private userRepository: UserRepository.Repository) {}
+    // [INFO] Injeção de dependência (DI)
+    constructor(
+      private userRepository: UserRepository.Repository,
+      private hashProvider: HashProvider,
+    ) {}
 
     async execute(input: Input): Promise<Output> {
       // TODO: melhorar resposta para qual campo está faltando
@@ -30,8 +35,11 @@ export namespace SignupUseCase {
       }
 
       await this.userRepository.emailExists(email)
+      const hashPassword = await this.hashProvider.generateHash(password)
 
-      const entity = new UserEntity(input)
+      const entity = new UserEntity(
+        Object.assign(input, { password: hashPassword }),
+      )
 
       await this.userRepository.insert(entity)
 
