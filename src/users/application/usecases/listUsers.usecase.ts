@@ -1,12 +1,16 @@
 import { UserRepository } from '@/users/domain/repository/user.repository'
-import { UserOutput } from '../dtos/user-output'
+import { UserOutput, UserOutputMapper } from '../dtos/user-output'
 import { Usecase as AbstractUsecase } from '@/shared/application/usecases/usecase'
 import { SearchInput } from '@/shared/application/dtos/search-input'
+import {
+  PaginationOutput,
+  PaginationOutputMapper,
+} from '@/shared/application/dtos/pagination-output'
 
 export namespace GetUserUseCase {
   export type Input = SearchInput
 
-  export type Output = void
+  export type Output = PaginationOutput<UserOutput>
 
   export class UseCase implements AbstractUsecase<Input, Output> {
     constructor(private userRepository: UserRepository.Repository) {}
@@ -15,7 +19,15 @@ export namespace GetUserUseCase {
       const searchParams = new UserRepository.SearchParams(input)
       const searchResult = await this.userRepository.search(searchParams)
 
-      return
+      return this.toOutput(searchResult)
+    }
+
+    private toOutput(searchResult: UserRepository.SearchResult): Output {
+      const items = searchResult.items.map(item => {
+        return UserOutputMapper.toOutput(item)
+      })
+
+      return PaginationOutputMapper.toOutput(items, searchResult)
     }
   }
 }
