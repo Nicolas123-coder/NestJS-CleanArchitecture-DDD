@@ -1,7 +1,7 @@
 import { SearchResult } from '@/shared/domain/repositories/searchable-repository-contracts'
 import { PaginationOutputMapper } from '../../pagination-output'
 
-describe('PaginationOutputMappter unit tests', () => {
+describe('PaginationOutputMapper unit tests', () => {
   it('Should convert a SearchResult in Output', () => {
     const result = new SearchResult({
       items: ['test'] as any,
