@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { UsersService } from './users.service'
 import { UsersController } from './users.controller'
 import { SignupUseCase } from '../application/usecases/signUp.usecase'
 import { UserRepository } from '../domain/repository/user.repository'
@@ -16,7 +15,6 @@ import { DeleteUserUseCase } from '../application/usecases/deleteUser.uscase'
 @Module({
   controllers: [UsersController],
   providers: [
-    UsersService,
     // [INFO] Instanciando os provedores que serão injetados
     // nos usecases abaixo. Preciso registrar no módulo para usar no Controller
     {
