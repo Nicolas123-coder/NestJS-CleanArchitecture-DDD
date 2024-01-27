@@ -1,7 +1,6 @@
 import { UserRepository } from '@/users/domain/repository/user.repository'
 import { UserOutput, UserOutputMapper } from '../dtos/user-output'
 import { Usecase as AbstractUsecase } from '@/shared/application/usecases/usecase'
-import { BadRequestError } from '@/shared/application/errors/bad-request-error'
 import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error'
 import { HashProvider } from '@/shared/application/providers/hash-provider'
 
@@ -41,6 +40,7 @@ export namespace UpdatePasswordUseCase {
       )
 
       entity.updatePassword(newPasswordHash)
+      console.log(entity)
 
       await this.userRepository.update(entity)
 

@@ -49,8 +49,8 @@ export class UserEntity extends Entity<UserProps> {
     return this.props.password
   }
 
-  private set password(name: string) {
-    this.props.name = name
+  private set password(password: string) {
+    this.props.password = password
   }
 
   get createdAt() {
@@ -61,7 +61,7 @@ export class UserEntity extends Entity<UserProps> {
     const validator = UserValidatorFactory.create()
     const isValid = validator.validate(props)
 
-    if(!isValid) {
+    if (!isValid) {
       throw new EntityValidationError(validator.errors)
     }
   }

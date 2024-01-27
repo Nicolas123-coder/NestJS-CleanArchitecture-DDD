@@ -71,6 +71,6 @@ describe('UserEntity unit tests', () => {
     sut.updatePassword('other password')
 
     expect(UserEntity.validate).toHaveBeenCalled()
-    expect(sut.props.password).toEqual(props.password)
+    expect(sut.props.password).toEqual('other password')
   })
 })
