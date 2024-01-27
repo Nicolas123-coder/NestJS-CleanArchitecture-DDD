@@ -3,7 +3,7 @@ import { UserOutput, UserOutputMapper } from '../dtos/user-output'
 import { Usecase as AbstractUsecase } from '@/shared/application/usecases/usecase'
 import { BadRequestError } from '@/shared/application/errors/bad-request-error'
 
-export namespace GetUserUseCase {
+export namespace UpdateUserUseCase {
   export type Input = {
     id: string
     name: string
