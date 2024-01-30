@@ -6,8 +6,6 @@ import { SignInUseCase } from '@/users/application/usecases/signIn.usecase'
 import { SignInDto } from '../../dtos/signIn.dto'
 import { UpdateUserUseCase } from '@/users/application/usecases/updateUser.usecase'
 import { UpdateUserDto } from '../../dtos/updateUser.dto'
-import { UpdatePasswordUseCase } from '@/users/application/usecases/updatePassword.usecase'
-import { UpdatePasswordDto } from '../../dtos/updatePassword.dto'
 import { GetUserUseCase } from '@/users/application/usecases/getUser.usecase'
 import { ListUsersUseCase } from '@/users/application/usecases/listUsers.usecase'
 
