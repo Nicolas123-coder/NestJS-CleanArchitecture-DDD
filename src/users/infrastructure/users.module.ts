@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Inject, Module } from '@nestjs/common'
 import { UsersController } from './users.controller'
 import { SignupUseCase } from '../application/usecases/signUp.usecase'
 import { UserRepository } from '../domain/repository/user.repository'
@@ -11,6 +11,8 @@ import { ListUsersUseCase } from '../application/usecases/listUsers.usecase'
 import { UpdateUserUseCase } from '../application/usecases/updateUser.usecase'
 import { UpdatePasswordUseCase } from '../application/usecases/updatePassword.usecase'
 import { DeleteUserUseCase } from '../application/usecases/deleteUser.uscase'
+import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service'
+import { UserPrismaRepository } from './database/prisma/repositories/user-prisma-repository'
 
 @Module({
   controllers: [UsersController],
@@ -18,8 +20,16 @@ import { DeleteUserUseCase } from '../application/usecases/deleteUser.uscase'
     // [INFO] Instanciando os provedores que serão injetados
     // nos usecases abaixo. Preciso registrar no módulo para usar no Controller
     {
+      provide: 'PrismaService',
+      useClass: PrismaService,
+    },
+    {
       provide: 'UserRepository',
-      useClass: UserInMemoryRepository,
+      // Neste caso tem que usar o Factory para adicionar as dependências necessárias
+      useFactory: (prismaService: PrismaService) => {
+        return new UserPrismaRepository(prismaService)
+      },
+      inject: ['PrismaService'],
     },
     {
       provide: 'HashProvider',
